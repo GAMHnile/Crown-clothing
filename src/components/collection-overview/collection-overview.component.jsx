@@ -9,7 +9,7 @@ import {createStructuredSelector} from 'reselect';
 import {selectCollectionsForPreview} from '../../redux/shop/shop.selectors';
 
 const CollectionOverview=({collections})=>{
-    console.log(collections)
+
     return(
     <div className='collection-overview'>
         {
