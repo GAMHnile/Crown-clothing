@@ -6,9 +6,9 @@ import {Link} from 'react-router-dom';
 
 const CollectionPreview =({title, items})=>(
     <div className='collection-preview'>
-        <Link to={`/shop/${title.toLowerCase()}`}>
-            <h1 className='title'>{title.toUpperCase()}</h1>
-        </Link>
+        <h1 className='title'>
+            <Link to={`/shop/${title.toLowerCase()}`}>{title.toUpperCase()}</Link>
+        </h1>
         <div className='preview'>
         {items.filter((item,idx)=> idx<4).map(item=> <CollectionItem key={item.id} item={item}/>)}
         </div>    
