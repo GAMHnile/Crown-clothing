@@ -1,19 +1,20 @@
 import React from 'react';
 import './App.css';
 
+import Header from './components/header/header.component.jsx';
+
+
 import HomePage from './pages/homepage.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component.jsx';
 import ShopPage from './pages/shop/shop.component';
 import CheckoutPage from './pages/checkout/checkout.component';
 
 import {Route, Switch, Redirect} from 'react-router-dom';
-import Header from './components/header/header.component.jsx';
-import {auth} from './firebase/firebase.utils';
-import {createUserProfileDocument} from './firebase/firebase.utils';
-import {connect} from 'react-redux';
-import {setCurrentUser} from './redux/user/user.actions';
-import {createStructuredSelector} from 'reselect';
 
+import {connect} from 'react-redux';
+import {checkUserSession} from './redux/user/user.actions';
+
+import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from './redux/user/user.selectors';
 
 
@@ -21,33 +22,13 @@ import {selectCurrentUser} from './redux/user/user.selectors';
 class App extends React.Component {
 
 
-  unsubscribeFromAuth = null;
-
   componentDidMount(){
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth=>{
-      const {setCurrentUser} = this.props;
     
-
-      if(userAuth){
-      const userRef=await createUserProfileDocument(userAuth);
-      userRef.onSnapshot(snapshot=>{
-
-          setCurrentUser({id: userRef.id, ...snapshot.data()})
-          
-        }
-        )
-      }else{
-        setCurrentUser(userAuth);
-      }})
-
-      
-
+    const {checkUserSession}= this.props;
+    checkUserSession();
 
   }
 
-  componentWillUnmount(){
-    this.unsubscribeFromAuth();
-  }
   
 
   render(){
@@ -70,12 +51,14 @@ class App extends React.Component {
   }
 }
 
-const mapDispatchToProps= dispatch =>({
-  setCurrentUser: user=>dispatch(setCurrentUser(user))
-})
+
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
+})
+
+const mapDispatchToProps = dispatch =>({
+  checkUserSession: ()=>dispatch(checkUserSession())
 })
 
 
