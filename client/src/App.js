@@ -9,7 +9,7 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 import ShopPage from './pages/shop/shop.component';
 import CheckoutPage from './pages/checkout/checkout.component';
 
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch, Redirect, useLocation} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 import {checkUserSession} from './redux/user/user.actions';
@@ -24,6 +24,11 @@ const App=({checkUserSession, currentUser})=> {
   useEffect(()=>{
     checkUserSession()
   },[checkUserSession])
+
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    }, [pathname]);
 
   
 
