@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {ReactComponent as Logo} from '../../assets/crown.svg';
 
 import {HeaderContainer, 
@@ -16,7 +16,10 @@ import {selectCartHidden} from '../../redux/cart/cart.selectors';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import {createStructuredSelector} from 'reselect';
 
-const Header=({currentUser, hidden, signOut})=>(
+const Header=({currentUser, hidden, signOut})=>{
+    const iconRef = useRef(null);
+
+    return (
     <HeaderContainer>
         <LogoContainer to='/'>
             <Logo/>
@@ -27,13 +30,13 @@ const Header=({currentUser, hidden, signOut})=>(
             {currentUser?
             <OptionLink as='div' onClick={signOut}>Sign out</OptionLink>
             :<OptionLink to='/signin'>Sign in</OptionLink>}
-            <CartIcon />
+            <CartIcon iconRef={iconRef} />
         </OptionsContainer>
-        {hidden? null: (<CartDropdownContainer />)}
+        {hidden? null: (<CartDropdownContainer iconRef={iconRef} />)}
     
     </HeaderContainer>
 
-)
+)}
 
 const mapStateToProps= createStructuredSelector({
     currentUser: selectCurrentUser , 

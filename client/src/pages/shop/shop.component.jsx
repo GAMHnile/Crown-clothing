@@ -20,7 +20,7 @@ const ShopPage=({match, fetchCollectionsStart})=>{
 
     return(
         <div className='shop-page'>
-            <Suspense fallback={Spinner}>
+            <Suspense fallback={<Spinner />}>
                 <Route exact path={match.path} component={CollectionOverviewContainer} />
                 <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer} />
             </Suspense>
