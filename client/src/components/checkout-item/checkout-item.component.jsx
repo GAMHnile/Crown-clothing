@@ -24,14 +24,16 @@ const CheckoutItem=({cartItem, clearItem, addItem, removeItem, saveCart, current
             <div className='arrow' 
             onClick={()=>{
                 removeItem(cartItem);
-                saveCart({userId: currentUser.id, userCart: allCartItems});
+                //if user is signed in save the cart
+                if(currentUser) saveCart({userId: currentUser.id, userCart: allCartItems});
             }}
             >&#10094;</div>
                 <span className='value'>{quantity}</span>
             <div className='arrow' 
             onClick={()=>{
                 addItem(cartItem);
-                saveCart({userId: currentUser.id, userCart: allCartItems});
+                //if user is signed in save the cart
+                if(currentUser) saveCart({userId: currentUser.id, userCart: allCartItems});
             }}
             >&#10095;</div>
         </span>
@@ -39,7 +41,8 @@ const CheckoutItem=({cartItem, clearItem, addItem, removeItem, saveCart, current
         <div className='remove-button' 
         onClick={()=>{
             clearItem(cartItem);
-            saveCart({userId: currentUser.id, userCart: allCartItems});
+            //if user is signed in save the cart
+            if(currentUser) saveCart({userId: currentUser.id, userCart: allCartItems});
         }}
         >&#10005;</div>
     </div>

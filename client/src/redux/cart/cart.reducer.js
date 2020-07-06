@@ -1,5 +1,5 @@
 import cartActionTypes from './cart.types';
-import {addItemToCart, removeItem} from './cart.utils';
+import {addItemToCart, removeItem, mergeOnlineCart} from './cart.utils';
 
 const INITIAL_STATE = {
     hidden: true,
@@ -13,7 +13,7 @@ const cartReducer = (state = INITIAL_STATE, action)=>{
         case cartActionTypes.SET_CART_HIDDEN:
             return {...state, hidden: true};
         case cartActionTypes.SET_USER_CART:
-            return {...state, cartItems: action.payload};
+            return {...state, cartItems: mergeOnlineCart(action.payload, state.cartItems)};
         case cartActionTypes.ADD_ITEM:
             return{...state, cartItems: addItemToCart(state.cartItems, action.payload) };
         case cartActionTypes.CLEAR_ITEM_FROM_CART:

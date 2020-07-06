@@ -23,7 +23,8 @@ const CollectionItem=( {item,addItem, saveCart, currentUser, allCartItems})=>{
         <CustomButton className='custom-button' 
         onClick={()=>{
             addItem(item);
-            saveCart({userId: currentUser.id, userCart: allCartItems});
+            //if a user is signed in
+            if(currentUser) saveCart({userId: currentUser.id, userCart: allCartItems});
         }} 
         inverted>Add to cart</CustomButton>
     

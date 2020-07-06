@@ -25,3 +25,35 @@ export const removeItem=(cartItems, cartItemToRemove)=>{
 
 
 }
+
+const mergeItemToCart = (cartItems, cartItemToAdd)=>{
+    const existingCartItem = cartItems.find(cartItem=> cartItem.id === cartItemToAdd.id)
+
+    if(existingCartItem){
+        return cartItems.map(cartItem=>{
+            return( (cartItem.id === cartItemToAdd.id)?{...cartItem, quantity: cartItem.quantity+ cartItemToAdd.quantity}
+            :cartItem)
+        } )
+    }
+
+    return [...cartItems, cartItemToAdd]
+}
+
+
+export const mergeOnlineCart = (onlineCart, offlineCart)=>{
+    //if online cart is empty return offline cart
+    if(!(!!onlineCart.length)) return offlineCart;
+    //if items exist in online and offline cart merge carts
+    if(!!offlineCart.length && !!onlineCart.length){
+        let mergedCart = offlineCart;
+
+        onlineCart.forEach(item=>{
+            mergedCart = mergeItemToCart(mergedCart, item)
+        })
+
+        return mergedCart
+    }else{
+        //if nothing in offline cart return onlineCart
+        return onlineCart
+    }
+}
