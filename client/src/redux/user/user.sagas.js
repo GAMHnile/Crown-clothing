@@ -9,17 +9,20 @@ import {
     signUpSuccess
     } from './user.actions';
 
+import {setUserCart} from '../cart/cart.actions';
+
 import {
     auth,
     googleProvider,
     createUserProfileDocument,
-    getCurrentUser
+    getCurrentUser,
+    updateCartOnFireStore
 } from '../../firebase/firebase.utils';
 
-function* createNewUser({payload:{email, password, displayName}}){
+function* createNewUser({payload:{email, password, displayName, userCart}}){
    try{
        const {user} = yield auth.createUserWithEmailAndPassword(email, password);
-       yield getSnaphotFromUserAuth(user, {displayName});
+       yield getSnaphotFromUserAuth(user, {displayName, userCart});
        yield put(signUpSuccess())
        
 
@@ -29,7 +32,9 @@ function* createNewUser({payload:{email, password, displayName}}){
 
 }
 
-function* signOut(){
+function* signOut({payload:{userId, userCart}}){
+        //update collection to firestore
+        yield call(updateCartOnFireStore , userId, userCart)
     try{
         yield auth.signOut();
         yield put(signOutSuccess());
@@ -45,20 +50,22 @@ function* getSnaphotFromUserAuth(user, additionalData){
     const userSnapshot =yield userRef.get();
 
     const userData = {id: userRef.id, ...userSnapshot.data()};
-
+    const {userCart} = userSnapshot.data();
     yield put(signInSuccess(userData));
+    //set userCart to cartItems on cartItem reducer
+    yield put(setUserCart(userCart));
 
     } catch (error) {
         yield put(signInFailure(error));
     }
-
+ 
 }
 
-function* signInWithGoogle(){
+function* signInWithGoogle({payload: {userCart}}){
     try {
         const userAuth =yield auth.signInWithPopup(googleProvider);
         const {user} = userAuth;
-        yield call(getSnaphotFromUserAuth, user);
+        yield call(getSnaphotFromUserAuth, user, {userCart});
 
     } catch (error) {
         yield put(signInFailure(error));

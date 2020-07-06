@@ -19,5 +19,8 @@
 }
 
 .mtop--small{
-    margin-top: 20px;
+    @media screen and (max-width: 800px){
+        margin-top: 20px;
+    }
+    
 }

@@ -4,10 +4,13 @@ import CustomButton from '../custom-button/custom-button.component';
 import './sign-up.styles.scss';
 
 import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
 
+import {selectCartItems} from '../../redux/cart/cart.selectors';
 import {signUpStart} from '../../redux/user/user.actions';
 
-const SignUp=({signUpStart})=>{
+const SignUp=({signUpStart, userCart})=>{
+
     const [userCredentials, setCredentials] = useState({
         displayName: '',
         email: '',
@@ -30,7 +33,7 @@ const SignUp=({signUpStart})=>{
             return
         }
 
-        signUpStart({email, password, displayName})
+        signUpStart({email, password, displayName, userCart})
     }
 
     
@@ -85,10 +88,12 @@ const SignUp=({signUpStart})=>{
     )
 }
 
-
+const mapStateToProps=createStructuredSelector({
+    userCart: selectCartItems
+})
 
 const mapDispatchToProps = dispatch =>({
     signUpStart: emailPasswordAndDisplayName=>dispatch(signUpStart(emailPasswordAndDisplayName))
 })
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -37,6 +37,20 @@ const Config = {
     return userRef;
   }
 
+  export const updateCartOnFireStore = async (userId, cart)=>{
+    
+    try {
+      const userRef = firestore.doc(`users/${userId}`);
+      await userRef.update({
+        userCart: cart
+      })
+    } catch (error) {
+      return console.log('error saving cart');
+    }
+
+  };
+
+
   export const addCollectionAndDocuments=async (collectionKey, objecctsToAdd)=>{
     const collectionRef = firestore.collection(collectionKey);
     const batch = firestore.batch();

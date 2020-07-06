@@ -1,8 +1,9 @@
 import userActionTypes from './user.types'
 
-export const googleSignInStart = () => (
+export const googleSignInStart = userCart => (
     {
-        type: userActionTypes.GOOGLE_SIGN_IN_START
+        type: userActionTypes.GOOGLE_SIGN_IN_START,
+        payload: userCart
     }
 )
 
@@ -31,8 +32,9 @@ export const checkUserSession = ()=>({
     type: userActionTypes.CHECK_USER_SESSION
 })
 
-export const signOutStart = ()=>({
-    type: userActionTypes.SIGN_OUT_START
+export const signOutStart = (userIdAndUserCart)=>({
+    type: userActionTypes.SIGN_OUT_START,
+    payload: userIdAndUserCart
 })
 
 export const signOutSuccess = ()=>({

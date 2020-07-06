@@ -27,3 +27,13 @@ export const removeItem=item=>({
 export const clearCart= ()=>({
     type: cartActionTypes.CLEAR_CART
 })
+
+export const setUserCart= userCart=>({
+    type: cartActionTypes.SET_USER_CART,
+    payload: userCart
+})
+
+export const saveUserCart = userIdAndCart =>({
+    type: cartActionTypes.SAVE_USER_CART,
+    payload: userIdAndCart
+})
